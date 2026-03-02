@@ -9,18 +9,18 @@ class InsightGenerator:
     def __init__(self, case_database: Dict[str, Dict]):
         self.case_database = case_database
 
-    # ---------------------------------------------------
+    
     # Public Method
-    # ---------------------------------------------------
+    
 
     def generate_insight(
         self,
         top_matches: List[Tuple[str, float]]
     ) -> Tuple[str, str]:
 
-        # ---------------------------------------------------
+        
         # Case 1: No Similar Cases Found
-        # ---------------------------------------------------
+        
         if not top_matches:
             return (
                 "No similar historical cases found.",
@@ -30,9 +30,9 @@ class InsightGenerator:
         diagnoses = []
         treatments = []
 
-        # ---------------------------------------------------
+        
         # Collect Diagnosis & Treatment
-        # ---------------------------------------------------
+        
         for case_id, score in top_matches:
             case_data = self.case_database.get(case_id, {})
 
@@ -48,24 +48,23 @@ class InsightGenerator:
         most_common_diagnosis = self._most_common(diagnoses)
         recommended_treatment = self._most_common(treatments)
 
-        # ---------------------------------------------------
-        # Smart Summary Generation (Improved)
-        # ---------------------------------------------------
+        
+        # Smart Summary Generation        
         summary = self._generate_summary(
             most_common_diagnosis,
             recommended_treatment
         )
 
-        # ---------------------------------------------------
+        
         # Confidence Calculation
-        # ---------------------------------------------------
+        
         confidence = self._generate_confidence(top_matches)
 
         return summary, confidence
 
-    # ---------------------------------------------------
-    # Helper: Generate Summary
-    # ---------------------------------------------------
+    
+    # Generate Summary
+    
 
     @staticmethod
     def _generate_summary(
@@ -96,19 +95,18 @@ class InsightGenerator:
             f"{diagnosis} and responded well to {treatment}."
         )
 
-    # ---------------------------------------------------
-    # Helper: Most Common Item
-    # ---------------------------------------------------
-
+    
+    # Most Common Item
+   
     @staticmethod
     def _most_common(items: List[str]) -> str:
         if not items:
             return "insufficient data"
         return Counter(items).most_common(1)[0][0]
 
-    # ---------------------------------------------------
-    # Helper: Confidence Score (Improved)
-    # ---------------------------------------------------
+    
+    # Confidence Score (Improved)
+    
 
     @staticmethod
     def _generate_confidence(

@@ -12,10 +12,6 @@ from config import TOP_K, EMBEDDING_DIM
 app = FastAPI(title="CCMS AI Similarity Engine")
 
 
-# ---------------------------------------------------
-# Global System State
-# ---------------------------------------------------
-
 embedding_engine = EmbeddingEngine(embedding_dim=EMBEDDING_DIM)
 case_database: Dict = {}
 similarity_engine: SimilarityEngine = None
@@ -23,9 +19,8 @@ insight_generator: InsightGenerator = None
 response_cache = {}
 
 
-# ---------------------------------------------------
+
 # Startup Initialization
-# ---------------------------------------------------
 
 @app.on_event("startup")
 def initialize_system():
@@ -47,12 +42,11 @@ def initialize_system():
     similarity_engine = SimilarityEngine(case_embeddings)
     insight_generator = InsightGenerator(case_database)
 
-    print("✅ System initialized successfully.")
+    print(" System initialized successfully.")
 
 
-# ---------------------------------------------------
+
 # Helper: Convert Confidence Text → Quality Label
-# ---------------------------------------------------
 
 def determine_output_quality(confidence_reason: str) -> str:
 
@@ -64,9 +58,8 @@ def determine_output_quality(confidence_reason: str) -> str:
         return "Low"
 
 
-# ---------------------------------------------------
+
 # Main API Endpoint
-# ---------------------------------------------------
 
 @app.post("/analyze-case", response_model=CaseResponse)
 def analyze_case(request: CaseRequest):
@@ -93,10 +86,10 @@ def analyze_case(request: CaseRequest):
             "notes": request.doctor_notes,
         }
 
-        # Step 1: Generate embedding
+        # Generate embedding
         query_embedding = embedding_engine.generate_embedding(new_case)
 
-        # Step 2: Retrieve similar cases
+        # Retrieve similar cases
         top_matches = similarity_engine.retrieve_top_k(
             query_embedding,
             top_k=TOP_K
@@ -110,16 +103,16 @@ def analyze_case(request: CaseRequest):
             for case_id, score in top_matches
         ]
 
-        # Step 3: Generate insight
+        # Generate insight
         insight_summary, confidence_reason = (
             insight_generator.generate_insight(top_matches)
         )
 
-        # Step 4: Measure Response Time
+        # Measure Response Time
         end_time = time.time()
         response_time_ms = (end_time - start_time) * 1000
 
-        # Step 5: Determine Output Quality
+        # Determine Output Quality
         output_quality = determine_output_quality(confidence_reason)
 
         system_metrics = SystemMetrics(

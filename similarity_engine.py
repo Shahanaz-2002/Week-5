@@ -5,18 +5,10 @@ from typing import Dict, List, Tuple
 
 
 class SimilarityEngine:
-    """
-    Responsible ONLY for computing similarity
-    between query embedding and stored case embeddings.
-    """
+    
 
     def __init__(self, case_embeddings: Dict[str, np.ndarray]):
-        """
-        Parameters:
-        -----------
-        case_embeddings : dict
-            Dictionary of {case_id: embedding_vector}
-        """
+        
         self.case_embeddings = case_embeddings
 
     # ---------------------------------------------------
@@ -28,14 +20,7 @@ class SimilarityEngine:
         query_embedding: np.ndarray,
         top_k: int = 3
     ) -> List[Tuple[str, float]]:
-        """
-        Compute cosine similarity between query embedding
-        and all stored case embeddings.
-
-        Returns:
-        --------
-        List of (case_id, similarity_score) sorted descending.
-        """
+       
 
         if not self.case_embeddings:
             return []

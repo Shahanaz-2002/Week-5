@@ -15,9 +15,7 @@ from utils import (
 from config import CSV_DATA_PATH, EMBEDDING_DIM, TOP_K
 
 
-# ---------------------------------------------------
 # Main Pipeline
-# ---------------------------------------------------
 
 def main():
 
@@ -35,17 +33,14 @@ def main():
             log("No cases found in database. Exiting.")
             return
 
-        # ---------------------------------------------------
-        # Step 2: Initialize Embedding Engine
-        # ---------------------------------------------------
-
+        #  Initialize Embedding Engine
+        
         log("Initializing embedding engine...")
         embedding_engine = EmbeddingEngine(embedding_dim=EMBEDDING_DIM)
 
-        # ---------------------------------------------------
-        # Step 3: Precompute Case Embeddings
-        # ---------------------------------------------------
-
+        
+        # Precompute Case Embeddings
+        
         log("Generating embeddings for case database...")
         case_embeddings = {}
 
@@ -53,49 +48,72 @@ def main():
             embedding = embedding_engine.generate_embedding(case_data)
             case_embeddings[case_id] = embedding
 
-        # ---------------------------------------------------
-        # Step 4: Initialize Similarity Engine
-        # ---------------------------------------------------
+       
+        # Initialize Similarity Engine
+        
 
         log("Initializing similarity engine...")
         similarity_engine = SimilarityEngine(case_embeddings)
 
-        # ---------------------------------------------------
-        # Step 5: Initialize Insight Generator
-        # ---------------------------------------------------
-
+        
+        # Initialize Insight Generator
+        
         log("Initializing insight generator...")
         insight_generator = InsightGenerator(case_database)
 
-        # ---------------------------------------------------
-        # Step 6: Day 5 Simulation Mode (Multiple Test Cases)
-        # ---------------------------------------------------
+        
+        # Simulation Mode (Multiple Test Cases)
+        
 
         test_cases = [
-            {
-                "case_id": "NEW001",
-                "symptoms": ["chest pain", "shortness of breath"],
-                "diagnosis": "",
-                "notes": "Patient reports fatigue and mild dizziness."
-            },
-            {
-                "case_id": "NEW002",
-                "symptoms": ["fever", "cough"],
-                "diagnosis": "",
-                "notes": "Symptoms persistent for 5 days."
-            },
-            {
-                "case_id": "NEW003",
-                "symptoms": ["headache", "blurred vision"],
-                "diagnosis": "",
-                "notes": "Intermittent pain, worsens in evening."
-            }
-        ]
+    {
+        "case_id": "NEW_SKIN_001",
+        "clinic_id": "CLINIC_001",
+        "symptoms": ["itching", "red rash on neck"],
+        "duration_days": 14,
+        "doctor_notes": "Patient reports recent use of new cosmetic product.",
+        "diagnosis": "",
+        "treatment": "",
+        "outcome": "",
+        "recovery_days": None,
+        "patient": {
+            "age": 26,
+            "gender": "Female"
+        }
+    },
+    {
+        "case_id": "NEW_SKIN_002",
+        "clinic_id": "CLINIC_001",
+        "symptoms": ["white patches on forearm", "mild dryness"],
+        "duration_days": 120,
+        "doctor_notes": "Non-itchy depigmented patches, gradually increasing in size.",
+        "diagnosis": "",
+        "treatment": "",
+        "outcome": "",
+        "recovery_days": None,
+        "patient": {
+            "age": 21,
+            "gender": "Male"
+        }
+    },
+    {
+        "case_id": "NEW_SKIN_003",
+        "clinic_id": "CLINIC_001",
+        "symptoms": ["pus-filled pimples on cheeks", "oily skin"],
+        "duration_days": 60,
+        "doctor_notes": "Inflammatory acne lesions with occasional scarring.",
+        "diagnosis": "",
+        "treatment": "",
+        "outcome": "",
+        "recovery_days": None,
+        "patient": {
+            "age": 24,
+            "gender": "Female"
+        }
+    }
+]
 
-        # ---------------------------------------------------
-        # Step 7: Process Each Simulated Case
-        # ---------------------------------------------------
-
+        # Process Each Simulated Case
         for new_case in test_cases:
 
             log(f"\nProcessing Case: {new_case['case_id']}")
@@ -132,9 +150,9 @@ def main():
 
             print(final_output)
 
-        # ---------------------------------------------------
-        # Step 8: Performance Measurement (Day 5 Requirement)
-        # ---------------------------------------------------
+       
+        # Performance Measurement 
+        
 
         end_time = time.time()
         total_time = end_time - start_time
@@ -146,9 +164,9 @@ def main():
         log(f"System Error: {str(e)}")
 
 
-# ---------------------------------------------------
-# Entry Point
-# ---------------------------------------------------
+
+# MAIN
+
 
 if __name__ == "__main__":
     main()

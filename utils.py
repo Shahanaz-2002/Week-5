@@ -4,15 +4,11 @@ import pandas as pd
 from typing import Dict, Any
 
 
-# --------------------------------------------------
+
 # DATA LOADER
-# --------------------------------------------------
 
 def load_case_database(file_path: str) -> Dict[str, Dict[str, Any]]:
-    """
-    Load case database from CSV and convert to dictionary format
-    expected by the embedding & insight modules.
-    """
+    
 
     df = pd.read_csv(file_path)
     case_database = {}
@@ -41,14 +37,11 @@ def load_case_database(file_path: str) -> Dict[str, Dict[str, Any]]:
     return case_database
 
 
-# --------------------------------------------------
 # INPUT VALIDATION
-# --------------------------------------------------
+
 
 def validate_case_input(case_input: Dict[str, Any]) -> bool:
-    """
-    Validate incoming case input before processing.
-    """
+   
 
     required_fields = ["symptoms"]
 
@@ -62,9 +55,8 @@ def validate_case_input(case_input: Dict[str, Any]) -> bool:
     return True
 
 
-# --------------------------------------------------
+
 # OUTPUT FORMATTER
-# --------------------------------------------------
 
 def format_output(
     query_case_id: str,
@@ -75,7 +67,7 @@ def format_output(
     Format final structured output.
     """
 
-    result = "\n================ CCMS-AI RESULT ================\n\n"
+    result = "\n==== CCMS-AI RESULT ====\n\n"
 
     result += f"Query Case ID: {query_case_id}\n\n"
 
@@ -96,9 +88,9 @@ def format_output(
 
     return result
 
-# --------------------------------------------------
+
 # LOGGER
-# --------------------------------------------------
+
 
 def log(message: str) -> None:
     """
