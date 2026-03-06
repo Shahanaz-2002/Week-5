@@ -4,7 +4,6 @@ from pymongo import MongoClient
 from typing import Dict, Any
 from config import MONGO_URI, DATABASE_NAME, COLLECTION_NAME
 
-
 client = MongoClient(MONGO_URI)
 db = client[DATABASE_NAME]
 collection = db[COLLECTION_NAME]
@@ -24,6 +23,10 @@ def fetch_case_database() -> Dict[str, Dict[str, Any]]:
                 "diagnosis": record.get("diagnosis", ""),
                 "treatment": record.get("treatment", ""),
                 "notes": record.get("doctor_notes", ""),
+
+                # NEW
+                "embedding": record.get("embedding", None),
+                "embedding_version": record.get("embedding_version", None)
             }
 
     except Exception as e:
